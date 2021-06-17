@@ -31,13 +31,13 @@ tar_workflow <- list(
     figure_1_png,
     plot_results(file_name = "figure_1.png", 
                  project_output_dir = "3_visualize/out",
-                 data = eval_data), 
+                 df = eval_data), 
     format = "file"
   ),
   # Save the processed data
   tar_target(
     model_summary_results_csv,
-    write_processed(eval_data, 
+    write_processed(df = eval_data, 
                     project_output_dir = "2_process/out",
                     file_out = "model_summary_results.csv"), 
     format = "file"
@@ -47,7 +47,8 @@ tar_workflow <- list(
     model_diagnostic_text_txt,
     model_diagnostic(file_out = "model_diagnostic_text.txt", 
                      project_output_dir = "2_process/out",
-                     data = eval_data), 
+                     df = eval_data), 
     format = "file"
   )
 )
+
