@@ -1,6 +1,13 @@
 library(targets)
 
-source("1_fetch/src/fetch_sb_data.R")
+# Sync target_test folder
+# Set the path here:
+path_to_data <- function() {
+  "C:/Users/ldecicco/OneDrive - DOI/Documents/target_test"
+}
+
+
+source("1_fetch/src/fetch_onedrive_data.R")
 source("2_process/src/process_sb_data.R")
 source("3_visualize/src/plot_results.R")
 
@@ -14,11 +21,17 @@ dir.create("2_process/out", showWarnings = FALSE)
 dir.create("3_visualize/out", showWarnings = FALSE)
 
 tar_workflow <- list(
-  # Get the data from ScienceBase
+  tar_target(
+    raw_data_file,
+    path_to_data(),
+    format = "file"
+  ),
+  # Get the data from OneDrive
   tar_target(
     file_out,
-    fetch_sb_data(out_filepath = "model_RMSEs.csv",
-                  project_output_dir = "1_fetch/out"),
+    fetch_onedrive_data(out_filepath = "model_RMSEs.csv",
+                        ds_pipeline = raw_data_file,
+                        project_output_dir = "1_fetch/out"),
     format = "file"
   ), 
   # Prepare the data for plotting
