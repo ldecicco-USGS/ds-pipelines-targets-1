@@ -1,6 +1,9 @@
 library(dplyr)
 
 plot_results <- function(df, project_output_dir){
+  png(file = file.path(project_output_dir, 'figure_1.png'), 
+      width = 8, height = 10, res = 200, units = 'in')
+  
   # Create a plot
   
   par(omi = c(0,0,0.05,0.05), mai = c(1,1,0,0), las = 1, mgp = c(2,.5,0), cex = 1.5)
@@ -41,5 +44,7 @@ plot_results <- function(df, project_output_dir){
   
   points(2.2, 1.09, col = '#1b9e77', pch = 21, bg = 'white', lwd = 2.5, cex = 1.5)
   text(2.3, 1.1, 'Process-Based', pos = 4, cex = 1.1)
+  
+  dev.off()
 
 }
