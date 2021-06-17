@@ -1,7 +1,9 @@
 library(dplyr)
 
-plot_results <- function(df, project_output_dir){
-  png(file = file.path(project_output_dir, 'figure_1.png'), 
+plot_results <- function(df, project_output_dir, file_name){
+  file_out <- file.path(project_output_dir, file_name)
+  
+  png(file = file_out, 
       width = 8, height = 10, res = 200, units = 'in')
   
   # Create a plot
@@ -47,4 +49,5 @@ plot_results <- function(df, project_output_dir){
   
   dev.off()
 
+  return(file_out)
 }
