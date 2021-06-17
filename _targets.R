@@ -13,7 +13,7 @@ dir.create("1_fetch/out", showWarnings = FALSE)
 dir.create("2_process/out", showWarnings = FALSE)
 dir.create("3_visualize/out", showWarnings = FALSE)
 
-list(
+tar_workflow <- list(
   # Get the data from ScienceBase
   tar_target(
     file_out,
