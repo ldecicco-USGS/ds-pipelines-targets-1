@@ -3,10 +3,10 @@ library(readr)
 library(stringr)
 library(whisker)
 
-process_sb_data <- function(file){
+process_sb_data <- function(in_filepath){
   
   # Prepare the data for plotting
-  eval_data <- readr::read_csv(file, col_types = 'iccd') %>%
+  eval_data <- readr::read_csv(in_filepath, col_types = 'iccd') %>%
     filter(str_detect(exper_id, 'similar_[0-9]+')) %>%
     mutate(col = case_when(
       model_type == 'pb' ~ '#1b9e77',
@@ -21,17 +21,17 @@ process_sb_data <- function(file){
   return(eval_data)
 }
 
-write_processed <- function(df_eval, project_output_dir){
+write_processed <- function(df_eval, project_output_dir, file_out){
   
   # Save the processed data
   readr::write_csv(df_eval, 
                    file = file.path(project_output_dir,
-                                    'model_summary_results.csv'))
+                                    file_out))
   
 }
 
 
-model_diagnostic <- function(eval_data, project_output_dir){
+model_diagnostic <- function(eval_data, project_output_dir, file_out ){
   
   # Save the model diagnostics
   render_data <- list(pgdl_980mean = filter(eval_data, model_type == 'pgdl', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
@@ -52,6 +52,6 @@ model_diagnostic <- function(eval_data, project_output_dir){
   whisker.render(template_1 %>% str_remove_all('\n') %>%
                    str_replace_all('  ', ' '),
                  render_data ) %>%
-    cat(file = file.path(project_output_dir, 'model_diagnostic_text.txt'))
+    cat(file = file.path(project_output_dir, file_out))
   
 }
